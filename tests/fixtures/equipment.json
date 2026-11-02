@@ -1,0 +1,9 @@
+{
+  "equipment": {
+    "equipmentList": [
+      { "slotPosName": "MainHand", "name": "Espada de Fuego", "enchantLevel": 12, "itemLevel": 86, "grade": "Unique", "icon": "https://example.com/w.png" },
+      { "slotPosName": "Helmet", "name": "Casco", "enchantLevel": 7, "itemLevel": 70, "grade": "Epic" },
+      { "slotPosName": "Belt", "name": null, "enchantLevel": null }
+    ]
+  }
+}
