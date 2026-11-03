@@ -1,0 +1,6 @@
+{
+  "data": {
+    "character": { "name": "Otro", "level": "44", "job": "Cleric" },
+    "stats": [{ "statName": "Combat Power", "statValue": 98000 }, { "statName": "Item Level", "statValue": "1,650" }]
+  }
+}
