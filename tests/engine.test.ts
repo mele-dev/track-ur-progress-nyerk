@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildDashboard, upcomingUnlocks } from "@/lib/engine/recommend";
+import { bestTierOf, buildDashboard, disabledReason, upcomingUnlocks } from "@/lib/engine/recommend";
+import type { Activity } from "@/data/types";
 import { resolvePhase } from "@/lib/engine/phases";
 import { emptyProgress, type ProgressState } from "@/lib/storage/progress";
 import type { ProfileInput } from "@/lib/engine/types";
@@ -19,8 +20,11 @@ describe("fases", () => {
   it("2.400 GS → Tier 5", () => {
     expect(resolvePhase(45, 2400).id).toBe("t5");
   });
-  it("3.000 GS → Tier 6", () => {
-    expect(resolvePhase(45, 3000).id).toBe("t6");
+  it("2.881 GS → Tier 6 (Ludra)", () => {
+    expect(resolvePhase(45, 2881).id).toBe("t6");
+  });
+  it("3.000 GS → Tier 7", () => {
+    expect(resolvePhase(45, 3000).id).toBe("t7");
   });
 });
 
@@ -85,18 +89,44 @@ describe("2.400 GS (el caso del usuario)", () => {
   });
 });
 
-describe("2.900 GS: Ludra desactivado", () => {
-  const dash = buildDashboard(profile({ gs: 2900 }), emptyProgress(NOW), NOW);
-  it("el raid aparece pero al fondo de la lista", () => {
+describe("2.881 GS: Ludra (disponible desde el 4/11)", () => {
+  const dash = buildDashboard(profile({ gs: 2881 }), emptyProgress(NOW), NOW);
+  it("Ludra Normal disponible, Hard bloqueado hasta 3.000", () => {
     const raid = dash.week.find((t) => t.activity.id === "sanctuary-raids")!;
-    expect(raid.bestTier).toBeNull();
-    expect(dash.week[dash.week.length - 1].activity.id).toBe("sanctuary-raids");
+    expect(raid.bestTier?.id).toBe("ludra-normal");
+    expect(raid.nextTier?.id).toBe("ludra-hard");
+    expect(ids(dash.unlocked)).toContain("sanctuary-raids");
   });
-  it("no se ofrece en 'desbloqueado'", () => {
-    expect(ids(dash.unlocked)).not.toContain("sanctuary-raids");
+  it("Hard de Fire Temple / Horn Den (2.800) disponible", () => {
+    expect(dash.today.find((t) => t.activity.id === "expedition-conquest")?.bestTier?.id).toBe("hard-fire-horn");
   });
-  it("Hell aparece como próximo desbloqueo a 3.500", () => {
-    expect(upcomingUnlocks(45, 2900).some((g) => g.threshold === 3500)).toBe(true);
+  it("el próximo desbloqueo es Ludra Hard a 3.000", () => {
+    expect(dash.upcoming[0]).toMatchObject({ kind: "gs", threshold: 3000, gap: 119 });
+    expect(upcomingUnlocks(45, 2881).some((g) => g.threshold === 3500)).toBe(false);
+  });
+  it("Chaotic Outer Reshanta aparece como semanal", () => {
+    expect(ids(dash.week)).toContain("abyss-outer");
+  });
+});
+
+describe("tiers desactivados (mecanismo)", () => {
+  const fake: Activity = {
+    id: "fake-raid",
+    name: { es: "Raid", en: "Raid" },
+    category: "weekly",
+    cadence: { kind: "weekly" },
+    unlock: { gs: 100 },
+    tiers: [{ id: "a", label: { es: "A", en: "A" }, gs: 100, disabled: { es: "off", en: "off" } }],
+    rewards: [],
+    priority: 50,
+    summary: { es: "", en: "" },
+    tip: { es: "", en: "" },
+    confidence: "ok",
+    sources: [],
+  };
+  it("si todos los tiers disponibles están desactivados, la actividad queda desactivada", () => {
+    expect(disabledReason(fake, 45, 200)).toEqual({ es: "off", en: "off" });
+    expect(bestTierOf(fake, 45, 200)).toBeNull();
   });
 });
 

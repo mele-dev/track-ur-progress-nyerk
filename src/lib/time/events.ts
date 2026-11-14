@@ -15,8 +15,8 @@ export const SHUGO_WINDOW_MIN = 3;
 /** Spacetime Rift: cada 3 h (00, 03, 06… UTC según la mayoría de las guías), ~10 min para entrar. */
 export const RIFT_EVERY_HOURS = 3;
 export const RIFT_WINDOW_MIN = 10;
-/** Artifact Siege: lunes, jueves y sábado a las 21:00 hora del servidor. */
-export const SIEGE_DAYS = [1, 4, 6];
+/** Artifact Siege: jueves y sábado a las 21:00 hora del servidor (desde el patch oficial del 4/11/2026; antes lun/jue/sáb). */
+export const SIEGE_DAYS = [4, 6];
 export const SIEGE_HOUR = 21;
 /** Duración aproximada mostrada (no confirmada). */
 export const SIEGE_WINDOW_MIN = 60;
@@ -97,7 +97,7 @@ export function zonedWallTimeToUtc(
   return new Date(result);
 }
 
-/** Próximo Artifact Siege (lun/jue/sáb 21:00 hora del servidor de la región). */
+/** Próximo Artifact Siege (jue/sáb 21:00 hora del servidor de la región). */
 export function nextArtifactSiege(now: Date, region: RegionId): Occurrence {
   const { tz } = getRegion(region);
   const today = zonedParts(now, tz);

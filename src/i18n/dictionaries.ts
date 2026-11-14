@@ -1,7 +1,8 @@
 const es = {
   appName: "Aion 2 Progress",
   tagline: "Entrá, buscá tu personaje y mirá qué te conviene hacer hoy para subir GS y CP.",
-  nav: { home: "Inicio", roadmap: "Guía de fases", manual: "Modo manual" },
+  nav: { home: "Inicio", roadmap: "Guía de fases", roadmapShort: "Guía", manual: "Modo manual" },
+  dataReviewed: "Datos del juego revisados el {date} · patch notes oficiales hasta el {patch}",
   lang: { label: "Idioma" },
   search: {
     title: "Buscar personaje",
@@ -80,7 +81,7 @@ const es = {
     priority: "Prioridad de tu fase",
     waste: "Si no lo hacés, se pierde",
     wasteLong: "Las entradas o recargas que no uses se pierden (no se acumulan más allá del tope).",
-    schedule: { hourly: "Cada hora en punto", every3h: "Cada 3 horas", siege: "Lun, jue y sáb 21:00" },
+    schedule: { hourly: "Cada hora en punto", every3h: "Cada 3 horas", siege: "Jueves y sábados 21:00" },
     more: "Más info",
     less: "Menos",
     sources: "Fuentes",
@@ -130,7 +131,7 @@ const es = {
     activities: "Actividades",
     sources: "Fuentes",
     disclaimer:
-      "Datos armados a partir de guías comunitarias (oct–nov 2026). NCSOFT no publica la mayoría de estos números: si algo cambió, avisá o editá src/data/activities.ts.",
+      "Lo marcado con ⚠ viene de guías comunitarias y puede variar; lo demás está verificado con los patch notes oficiales de NCSOFT. Si algo cambió, avisá o editá src/data/activities.ts.",
     unlocksAt: "Se desbloquea",
     daily: "Diaria",
     weekly: "Semanal",
@@ -147,7 +148,8 @@ type DeepString<T> = { [K in keyof T]: T[K] extends string ? string : DeepString
 const en: DeepString<Dict> = {
   appName: "Aion 2 Progress",
   tagline: "Look up your character and see what's worth doing today to raise your GS and CP.",
-  nav: { home: "Home", roadmap: "Phase guide", manual: "Manual mode" },
+  nav: { home: "Home", roadmap: "Phase guide", roadmapShort: "Guide", manual: "Manual mode" },
+  dataReviewed: "Game data reviewed on {date} · official patch notes through {patch}",
   lang: { label: "Language" },
   search: {
     title: "Find character",
@@ -226,7 +228,7 @@ const en: DeepString<Dict> = {
     priority: "Priority for your phase",
     waste: "Skip it and it's lost",
     wasteLong: "Unused entries or refills are lost (they don't bank past the cap).",
-    schedule: { hourly: "Every hour on the hour", every3h: "Every 3 hours", siege: "Mon, Thu and Sat 21:00" },
+    schedule: { hourly: "Every hour on the hour", every3h: "Every 3 hours", siege: "Thursdays and Saturdays 21:00" },
     more: "More info",
     less: "Less",
     sources: "Sources",
@@ -276,7 +278,7 @@ const en: DeepString<Dict> = {
     activities: "Activities",
     sources: "Sources",
     disclaimer:
-      "Data compiled from community guides (Oct–Nov 2026). NCSOFT doesn't publish most of these numbers: if something changed, report it or edit src/data/activities.ts.",
+      "Items marked ⚠ come from community guides and may vary; the rest is verified against NCSOFT's official patch notes. If something changed, report it or edit src/data/activities.ts.",
     unlocksAt: "Unlocks",
     daily: "Daily",
     weekly: "Weekly",

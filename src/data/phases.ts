@@ -134,7 +134,7 @@ export const PHASES: Phase[] = [
     minLevel: 45,
     minGs: 2100,
     targetGs: 2800,
-    goal: { es: "Llegar a 2.800 GS (raids)", en: "Reach 2,800 GS (raids)" },
+    goal: { es: "Llegar a 2.800 GS (Ludra)", en: "Reach 2,800 GS (Ludra)" },
     focus: [
       {
         es: "Fire Temple y Ferocious Horn Den: farmeá equipo de nivel 86.",
@@ -145,39 +145,64 @@ export const PHASES: Phase[] = [
         en: "Transcendence Stage 3 at 2,200 and Stage 4 at 2,500. Ascension Trial Extreme at 2,500.",
       },
       {
-        es: "Conquest Hard (Krao, Draupnir) a 2.600 GS; los grupos piden ~140–160k CP.",
-        en: "Conquest Hard (Krao, Draupnir) at 2,600 GS; parties ask for ~140–160k CP.",
+        es: "Modos Hard: Krao/Draupnir a 2.600 y Urugugu/Vakron a 2.700. Sus Ariel Fragments se convierten en Daevanion Crystals: Ariel (GS extra).",
+        en: "Hard modes: Krao/Draupnir at 2,600 and Urugugu/Vakron at 2,700. Their Ariel Fragments morph into Daevanion Crystals: Ariel (extra GS).",
       },
     ],
     boost: ["transcendence", "expedition-conquest", "ascension-trial", "odyle-energy"],
     pieceIlvl: 86,
-    sources: ["aion2turkiye-ladder", "game8-transcendence", "timesaver-hard", "corpus-gs"],
+    sources: ["official-2026-10-21", "official-2026-10-28", "game8-transcendence", "aion2turkiye-ladder"],
   },
   {
     id: "t6",
     short: { es: "Tier 6", en: "Tier 6" },
-    name: { es: "Tier 6: 2.800+ GS (endgame)", en: "Tier 6: 2,800+ GS (endgame)" },
+    name: { es: "Tier 6: 2.800–2.999 GS (Ludra)", en: "Tier 6: 2,800–2,999 GS (Ludra)" },
     minLevel: 45,
     minGs: 2800,
-    targetGs: 3500,
-    goal: { es: "Llegar a 3.500 GS (Hell)", en: "Reach 3,500 GS (Hell)" },
+    targetGs: 3000,
+    goal: { es: "Llegar a 3.000 GS (Ludra Hard)", en: "Reach 3,000 GS (Ludra Hard)" },
     focus: [
       {
-        es: "Raids de Sanctuary (Ludra está desactivado temporalmente en Global).",
-        en: "Sanctuary raids (Ludra is temporarily disabled on Global).",
+        es: "Abyssal Forge: Ludra (Normal): raid de Force (10 jugadores), 2 h de límite. Da arma y Guard de Ludra y Ludra's Bracelet.",
+        en: "Abyssal Forge: Ludra (Normal): Force raid (10 players), 2 h limit. Drops Ludra's weapon and Guard and Ludra's Bracelet.",
       },
       {
-        es: "Pasá de +10 solo en el arma y en piezas definitivas (+11..+15 tiene chance de fallar).",
-        en: "Go past +10 only on the weapon and final pieces (+11..+15 can fail).",
+        es: "Fire Temple y Ferocious Horn Den en Hard (2.800): Philosopher's Stone: Revelation y Ariel Fragments.",
+        en: "Fire Temple and Ferocious Horn Den on Hard (2,800): Philosopher's Stone: Revelation and Ariel Fragments.",
+      },
+      {
+        es: "Llevá a +15 las piezas definitivas que tengas en +10 (+11..+15 puede fallar).",
+        en: "Take your keeper pieces from +10 to +15 (+11..+15 can fail).",
+      },
+    ],
+    boost: ["sanctuary-raids", "expedition-conquest", "transcendence"],
+    pieceIlvl: 86,
+    sources: ["official-2026-11-04", "official-2026-11-11", "fextralife-enhance"],
+  },
+  {
+    id: "t7",
+    short: { es: "Tier 7", en: "Tier 7" },
+    name: { es: "Tier 7: 3.000+ GS (endgame)", en: "Tier 7: 3,000+ GS (endgame)" },
+    minLevel: 45,
+    minGs: 3000,
+    goal: { es: "Ludra Hard y maximizar CP", en: "Ludra Hard and max out CP" },
+    focus: [
+      {
+        es: "Abyssal Forge: Ludra (Hard): mejores tasas de drop. Las primeras 20 Forces de cada región en limpiarlo durante el evento \"Ludra Hunt\" (hasta el 24/11 PST) ganan títulos.",
+        en: "Abyssal Forge: Ludra (Hard): better drop rates. The first 20 Forces per region to clear it during the \"Ludra Hunt\" event (until Nov 24 PST) earn titles.",
+      },
+      {
+        es: "Amplificá (exceed) el arma y los brazaletes: Ludra's Bracelet llega a Amplify 5 y Abyssal Bracelet a 3.",
+        en: "Amplify (exceed) your weapon and bracelets: Ludra's Bracelet goes up to Amplify 5 and Abyssal Bracelet to 3.",
       },
       {
         es: "CP extra: Stigmas, Arcana, alas, mascotas, títulos y Closet.",
         en: "Extra CP: Stigmas, Arcana, wings, pets, titles and Closet.",
       },
     ],
-    boost: ["sanctuary-raids", "transcendence", "expedition-conquest"],
+    boost: ["sanctuary-raids", "expedition-conquest", "transcendence"],
     pieceIlvl: 86,
-    sources: ["aion2turkiye-ladder", "fextralife-enhance", "allthings-cp"],
+    sources: ["official-2026-11-04", "official-2026-11-11", "allthings-cp"],
   },
 ];
 

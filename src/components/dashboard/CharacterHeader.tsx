@@ -10,9 +10,9 @@ import { Avatar, Badge, Spinner } from "../ui";
 function Stat({ label, value, overridden }: { label: string; value: string; overridden?: boolean }) {
   const { d } = useI18n();
   return (
-    <div className="rounded-xl border border-line bg-surface-2/60 px-3 py-2 text-center">
+    <div className="min-w-0 rounded-xl border border-line bg-surface-2/60 px-2 py-2 text-center sm:px-3">
       <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">{label}</p>
-      <p className="text-lg font-bold tabular-nums sm:text-xl">{value}</p>
+      <p className="truncate text-lg font-bold tabular-nums sm:text-xl">{value}</p>
       {overridden && <p className="text-[10px] uppercase text-warn">{d.header.manualBadge}</p>}
     </div>
   );
@@ -56,37 +56,44 @@ export function CharacterHeader({
 
   return (
     <section className="rounded-2xl border border-line bg-surface/90 p-4 sm:p-5">
-      <div className="flex flex-wrap items-center gap-4">
-        <Avatar src={snapshot.profileImage} name={snapshot.name} />
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate text-2xl font-bold tracking-tight sm:text-3xl">{snapshot.name}</h1>
-          {meta && <p className="text-sm text-muted">{meta}</p>}
-          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-faint">
-            {snapshot.source === "manual" ? (
-              <Badge tone="warn">{d.header.manualBadge}</Badge>
-            ) : (
-              <span>
-                {d.header.updated}:{" "}
-                {new Date(snapshot.fetchedAt).toLocaleString(locale === "es" ? "es-AR" : "en-US", {
-                  dateStyle: "short",
-                  timeStyle: "short",
-                })}
-              </span>
-            )}
-            {officialUrl && (
-              <a href={officialUrl} target="_blank" rel="noreferrer" className="underline decoration-dotted hover:text-muted">
-                {d.header.official} ↗
-              </a>
-            )}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-4">
+          <Avatar src={snapshot.profileImage} name={snapshot.name} />
+          <div className="min-w-0 flex-1">
+            <h1 className="break-words text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{snapshot.name}</h1>
+            {meta && <p className="mt-0.5 text-sm leading-snug text-muted">{meta}</p>}
+            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-faint">
+              {snapshot.source === "manual" ? (
+                <Badge tone="warn">{d.header.manualBadge}</Badge>
+              ) : (
+                <span className="whitespace-nowrap">
+                  {d.header.updated}:{" "}
+                  {new Date(snapshot.fetchedAt).toLocaleString(locale === "es" ? "es-AR" : "en-US", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}
+                </span>
+              )}
+              {officialUrl && (
+                <a
+                  href={officialUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="whitespace-nowrap underline decoration-dotted hover:text-muted"
+                >
+                  {d.header.official} ↗
+                </a>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 *:flex-1 sm:*:flex-none">
           {onRefresh && (
             <button
               type="button"
               onClick={onRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface-2 px-3 py-2 text-sm font-medium hover:border-gold/50 disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-line bg-surface-2 px-3 py-2.5 text-sm font-medium hover:border-gold/50 disabled:opacity-60 sm:py-2"
             >
               {refreshing ? <Spinner /> : "↻"} {d.header.refresh}
             </button>
@@ -95,14 +102,14 @@ export function CharacterHeader({
             type="button"
             onClick={() => setEditOpen(!editOpen)}
             aria-expanded={editOpen}
-            className="rounded-xl border border-line bg-surface-2 px-3 py-2 text-sm font-medium hover:border-gold/50"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-line bg-surface-2 px-3 py-2.5 text-sm font-medium hover:border-gold/50 sm:py-2"
           >
             ✎ {d.header.edit}
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2">
+      <div className="mt-4 grid grid-cols-3 gap-1.5 sm:gap-2">
         <Stat label={d.header.level} value={level !== null ? String(level) : dash} overridden={overrides.level !== undefined} />
         <Stat label={d.header.gs} value={gs !== null ? num(gs) : dash} overridden={overrides.gs !== undefined} />
         <Stat label={d.header.cp} value={cp !== null ? num(cp) : dash} overridden={overrides.cp !== undefined} />

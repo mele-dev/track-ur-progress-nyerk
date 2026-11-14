@@ -39,7 +39,7 @@ export function RoadmapView() {
   return (
     <div className="space-y-5">
       <header>
-        <h1 className="text-3xl font-bold tracking-tight">{d.roadmap.title}</h1>
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{d.roadmap.title}</h1>
         <p className="mt-1 max-w-3xl text-muted">{d.roadmap.intro}</p>
         <p className="mt-3 rounded-xl border border-warn/30 bg-warn-soft px-4 py-3 text-sm text-warn">⚠ {d.roadmap.disclaimer}</p>
       </header>
@@ -50,7 +50,6 @@ export function RoadmapView() {
             key={p.id}
             title={l(p.name)}
             subtitle={`${d.phase.goal}: ${l(p.goal)}`}
-            right={<Badge tone="gold">{l(p.short)}</Badge>}
           >
             <ul className="space-y-1.5 text-sm text-ink/90">
               {p.focus.map((f, i) => (
@@ -68,36 +67,26 @@ export function RoadmapView() {
       </div>
 
       <Card title={d.roadmap.ladder}>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[480px] text-left text-sm">
-            <thead>
-              <tr className="border-b border-line text-xs uppercase tracking-wider text-faint">
-                <th className="py-2 pr-4">GS</th>
-                <th className="py-2">{d.roadmap.unlocksAt}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {LADDER.map((r) => (
-                <tr key={r.gs} className="border-b border-line/60 align-top">
-                  <td className="py-2.5 pr-4 font-semibold tabular-nums text-gold">{num(r.gs)}</td>
-                  <td className="py-2.5">
-                    <ul className="flex flex-wrap gap-1.5">
-                      {r.entries.map((e) => (
-                        <li key={`${e.activity.id}-${e.tier?.id ?? "base"}`}>
-                          <Badge tone={e.tier?.disabled ? "bad" : "neutral"}>
-                            {l(e.activity.name)}
-                            {e.tier ? `: ${l(e.tier.label)}` : ""}
-                            {e.tier?.disabled ? ` (${d.task.disabled})` : ""}
-                          </Badge>
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ol className="divide-y divide-line/60">
+          {LADDER.map((r) => (
+            <li key={r.gs} className="flex gap-3 py-2.5 sm:gap-4">
+              <span className="w-14 shrink-0 pt-0.5 text-sm font-semibold tabular-nums text-gold sm:w-16">{num(r.gs)}</span>
+              <ul className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                {r.entries.map((e) => (
+                  <li key={`${e.activity.id}-${e.tier?.id ?? "base"}`} className="min-w-0">
+                    <Badge tone={e.tier?.disabled ? "bad" : "neutral"}>
+                      <span className="whitespace-normal">
+                        {l(e.activity.name)}
+                        {e.tier ? `: ${l(e.tier.label)}` : ""}
+                        {e.tier?.disabled ? ` (${d.task.disabled})` : ""}
+                      </span>
+                    </Badge>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
       </Card>
 
       <Card title={d.roadmap.activities}>

@@ -1,9 +1,31 @@
 /**
- * Guías comunitarias usadas para armar los datos (consultadas en oct–nov 2026,
- * después del parche del 28 de octubre). No hay datos oficiales de NCSOFT para
- * la mayoría de estos números: por eso cada actividad tiene un nivel de confianza.
+ * Fuentes de los datos del juego. Las notas oficiales de NCSOFT tienen prioridad.
+ * Las guías comunitarias (consultadas en oct–nov 2026) cubren lo que las notas
+ * no publican; esos datos llevan `confidence: "disputed"` cuando no coinciden.
  */
 export const SOURCES = {
+  // ── Notas oficiales de NCSOFT (aion2.plaync.com, board "Updates") ──
+  "official-2026-11-11": {
+    title: "NCSOFT: Patch Notes Nov. 11, 2026",
+    url: "https://aion2.plaync.com/en-us/board/update/view?articleId=6af42a1affaccc00c265785f",
+  },
+  "official-2026-11-04-hotfix": {
+    title: "NCSOFT: Hotfix Nov. 4, 2026",
+    url: "https://aion2.plaync.com/en-us/board/update/view?articleId=6aeb1f716276ae76f3e4a6e4",
+  },
+  "official-2026-11-04": {
+    title: "NCSOFT: Patch Notes Nov. 4, 2026",
+    url: "https://aion2.plaync.com/en-us/board/update/view?articleId=6aead0e86cfe4756db5b913f",
+  },
+  "official-2026-10-28": {
+    title: "NCSOFT: Patch Notes Oct. 28, 2026",
+    url: "https://aion2.plaync.com/en-us/board/update/view?articleId=6ae19668577e8c01355e0210",
+  },
+  "official-2026-10-21": {
+    title: "NCSOFT: Patch Notes Oct. 21, 2026",
+    url: "https://aion2.plaync.com/en-us/board/update/view?articleId=6ad85be86cfe4756db5b8e92",
+  },
+  // ── Guías comunitarias ──
   "mobalytics-checklist": {
     title: "Mobalytics: Daily and Weekly Checklist",
     url: "https://mobalytics.gg/gamebase/guides/aion-2-daily-weekly-checklist",

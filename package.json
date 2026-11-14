@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "patch-notes": "node scripts/patch-notes.mjs"
   },
   "dependencies": {
     "next": "16.4.4",
