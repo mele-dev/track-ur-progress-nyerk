@@ -1,0 +1,19 @@
+{
+  "profile": {
+    "characterName": "Nyerk",
+    "className": "Gladiator",
+    "raceName": "Asmodian",
+    "characterLevel": 45,
+    "combatPower": "152,300",
+    "serverName": "Israphel",
+    "profileImage": "https://example.com/p.png"
+  },
+  "stat": {
+    "statList": [
+      { "type": "STR", "name": "Power", "value": 120 },
+      { "type": "ItemLevel", "name": "Item Level", "value": 2400 }
+    ]
+  },
+  "title": { "totalCount": 40 },
+  "daevanion": { "boardList": [{ "id": 11, "name": "Nezekan" }] }
+}

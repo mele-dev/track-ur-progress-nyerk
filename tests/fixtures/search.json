@@ -1,0 +1,22 @@
+{
+  "total": 2,
+  "list": [
+    {
+      "characterId": "9PO8eUjDa8pGlEbVzGrXcPIg8uTHRHN1MEr7cEdM1Nc%3D",
+      "name": "<em>Nyerk</em>",
+      "serverId": 2201,
+      "serverName": "Israphel",
+      "level": 45,
+      "className": "Gladiator",
+      "raceName": "Asmodian",
+      "profileImageUrl": "https://example.com/p.png"
+    },
+    {
+      "characterId": "abc%2Bdef%2F%3D",
+      "name": "<em>Nyerk</em>ito",
+      "serverId": "2202",
+      "level": "32"
+    },
+    { "name": "sin id" }
+  ]
+}
