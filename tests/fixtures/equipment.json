@@ -1,9 +1,20 @@
 {
   "equipment": {
     "equipmentList": [
-      { "slotPosName": "MainHand", "name": "Espada de Fuego", "enchantLevel": 12, "itemLevel": 86, "grade": "Unique", "icon": "https://example.com/w.png" },
-      { "slotPosName": "Helmet", "name": "Casco", "enchantLevel": 7, "itemLevel": 70, "grade": "Epic" },
-      { "slotPosName": "Belt", "name": null, "enchantLevel": null }
+      { "slotPos": 1, "slotPosName": "MainHand", "name": "Enraged Kromede Claymore", "enchantLevel": 15, "exceedLevel": 3, "grade": "Unique", "id": 110130051, "icon": "https://assets.playnccdn.com/w.png" },
+      { "slotPos": 3, "slotPosName": "Helmet", "name": "Nuakum Helm", "enchantLevel": 7, "exceedLevel": 0, "grade": "Unique", "id": 1, "icon": "https://assets.playnccdn.com/h.png" },
+      { "slotPos": 17, "slotPosName": "Belt", "name": "Noble Belt", "enchantLevel": 10, "exceedLevel": 0, "grade": "Unique", "id": 2, "icon": "https://assets.playnccdn.com/b.png" },
+      { "slotPos": 15, "slotPosName": "Bracelet1", "name": "Ascension Bracelet", "enchantLevel": 13, "exceedLevel": 0, "grade": "Unique", "id": 3, "icon": "https://assets.playnccdn.com/br.png" },
+      { "slotPos": 23, "slotPosName": "Rune1", "name": "Clash Rune", "enchantLevel": 1, "exceedLevel": 0, "grade": "Special", "id": 4, "icon": "https://assets.playnccdn.com/r.png" },
+      { "slotPos": 41, "slotPosName": "Arcana1", "name": "Chalice of Vigor", "enchantLevel": 5, "exceedLevel": 0, "grade": "Unique", "id": 5, "icon": "https://assets.playnccdn.com/a.png" }
+    ],
+    "skinList": [
+      { "slotPos": 21, "slotPosName": "EarringR", "name": "Steel Wings (Earrings)", "enchantLevel": 0, "exceedLevel": 0, "grade": "Rare", "id": 6, "icon": "https://assets.playnccdn.com/s.png" }
     ]
-  }
+  },
+  "petwing": {
+    "pet": { "id": 1245, "level": 3, "name": "Azure Flame Kumiho" },
+    "wing": { "id": 40201400, "enchantLevel": 0, "grade": "Unique", "name": "Kromede Wings" }
+  },
+  "skill": { "skillList": [] }
 }

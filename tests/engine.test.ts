@@ -3,6 +3,7 @@ import { buildDashboard, upcomingUnlocks } from "@/lib/engine/recommend";
 import { resolvePhase } from "@/lib/engine/phases";
 import { emptyProgress, type ProgressState } from "@/lib/storage/progress";
 import type { ProfileInput } from "@/lib/engine/types";
+import type { EquipmentPiece } from "@/lib/plaync/types";
 
 const NOW = new Date("2026-11-02T12:00:00Z"); // lunes
 const profile = (p: Partial<ProfileInput>): ProfileInput => ({ level: 45, gs: 0, cp: null, equipment: null, ...p });
@@ -123,21 +124,38 @@ describe("progreso marcado", () => {
 });
 
 describe("equipo", () => {
-  it("detecta piezas por debajo de +10 y de nivel bajo", () => {
-    const dash = buildDashboard(
-      profile({
-        gs: 2400,
-        equipment: [
-          { slot: "Weapon", name: "Espada", itemLevel: 86, enhance: 12, grade: "Unique", icon: null },
-          { slot: "Helmet", name: "Casco", itemLevel: 70, enhance: 7, grade: "Epic", icon: null },
-        ],
-      }),
-      emptyProgress(NOW),
-      NOW,
-    );
+  const piece = (p: Partial<EquipmentPiece>): EquipmentPiece => ({
+    slot: "MainHand",
+    kind: "gear",
+    name: null,
+    itemLevel: null,
+    enhance: 0,
+    exceed: 0,
+    grade: "Unique",
+    icon: null,
+    ...p,
+  });
+  const equipment = [
+    piece({ slot: "MainHand", name: "Espada", itemLevel: 86, enhance: 15 }),
+    piece({ slot: "Helmet", name: "Casco", itemLevel: 54, enhance: 7 }),
+    piece({ slot: "Belt", name: "Cinturón", enhance: 10 }),
+    piece({ slot: "Bracelet1", name: "Brazalete", enhance: 13 }),
+    piece({ slot: "Rune1", kind: "rune", name: "Clash Rune", enhance: 1 }),
+    piece({ slot: "Arcana1", kind: "arcana", name: "Chalice", enhance: 5 }),
+  ];
+
+  it("detecta piezas por debajo de +10 sin contar runas ni Arcana", () => {
+    const dash = buildDashboard(profile({ gs: 1600, equipment }), emptyProgress(NOW), NOW);
     const below = dash.gear.find((g) => g.id === "pieces-below-10")!;
     expect(below.pieces).toEqual([{ slot: "Helmet", name: "Casco", value: "+7" }]);
     expect(dash.gear.find((g) => g.id === "pieces-low-ilvl")?.pieces?.[0].slot).toBe("Helmet");
+    expect(dash.gear.some((g) => g.id === "pieces-to-15")).toBe(false);
+  });
+
+  it("desde 2.100 GS sugiere llevar las piezas de +10..+14 a +15", () => {
+    const dash = buildDashboard(profile({ gs: 2881, equipment }), emptyProgress(NOW), NOW);
+    const toMax = dash.gear.find((g) => g.id === "pieces-to-15")!;
+    expect(toMax.pieces?.map((p) => p.slot)).toEqual(["Belt", "Bracelet1"]);
   });
 });
 

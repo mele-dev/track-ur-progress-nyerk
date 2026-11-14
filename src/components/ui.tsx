@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { SOURCES, type SourceId } from "@/data/sources";
 import type { Confidence } from "@/data/types";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -95,6 +95,29 @@ export function ProgressBar({ pct, tone = "gold" }: { pct: number; tone?: "gold"
         style={{ width: `${pct}%` }}
       />
     </div>
+  );
+}
+
+/** Foto de perfil del sitio oficial; si no carga, muestra la inicial. */
+export function Avatar({ src, name, size = "md" }: { src: string | null; name: string; size?: "sm" | "md" }) {
+  const [failed, setFailed] = useState(false);
+  const box = size === "md" ? "h-16 w-16 rounded-2xl text-2xl" : "h-10 w-10 rounded-lg text-base";
+  if (src && !failed) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- imagen externa del sitio oficial
+      <img
+        src={src}
+        alt=""
+        onError={() => setFailed(true)}
+        referrerPolicy="no-referrer"
+        className={`${box} shrink-0 border border-line bg-surface-2 object-cover`}
+      />
+    );
+  }
+  return (
+    <span className={`${box} flex shrink-0 items-center justify-center border border-line bg-surface-2 font-bold text-gold`}>
+      {name.slice(0, 1).toUpperCase()}
+    </span>
   );
 }
 

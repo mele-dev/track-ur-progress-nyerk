@@ -4,7 +4,7 @@
  * Es una función pura (sin DOM ni red) para poder testearla.
  */
 import { ACTIVITIES } from "@/data/activities";
-import { GEAR_RULES, SAFE_ENHANCE } from "@/data/gear";
+import { GEAR_RULES, MAX_ENHANCE, SAFE_ENHANCE } from "@/data/gear";
 import { PHASES } from "@/data/phases";
 import type { Activity, Phase, Tier } from "@/data/types";
 import type { ProgressState } from "@/lib/storage/progress";
@@ -22,6 +22,8 @@ import type {
 
 export const MAX_LEVEL = 45;
 export const MEMBERSHIP_ODYLE_CAP = 840;
+/** Desde este GS conviene pasar de +10 en las piezas que ya son definitivas. */
+export const PUSH_PAST_SAFE_FROM_GS = 2100;
 
 export function tierAvailable(t: Tier, level: number, gs: number): boolean {
   return level >= (t.level ?? 0) && gs >= (t.gs ?? 0);
@@ -134,7 +136,8 @@ export function upcomingUnlocks(level: number, gs: number, limit = 4): UpcomingU
 
 export function gearAdvice(profile: ProfileInput, phase: Phase, gs: number): GearAdvice[] {
   const out: GearAdvice[] = [];
-  const pieces = profile.equipment ?? [];
+  // Runas y cartas Arcana tienen sus propios topes de enchant: no entran en estas reglas.
+  const pieces = (profile.equipment ?? []).filter((p) => p.kind === "gear");
 
   const belowSafe = pieces.filter((p) => p.enhance !== null && p.enhance < SAFE_ENHANCE);
   if (belowSafe.length > 0) {
@@ -148,6 +151,25 @@ export function gearAdvice(profile: ProfileInput, phase: Phase, gs: number): Gea
       pieces: belowSafe.map((p) => ({ slot: p.slot, name: p.name, value: `+${p.enhance}` })),
       confidence: "ok",
     });
+  }
+
+  if (gs >= PUSH_PAST_SAFE_FROM_GS) {
+    const toMax = pieces.filter((p) => p.enhance !== null && p.enhance >= SAFE_ENHANCE && p.enhance < MAX_ENHANCE);
+    if (toMax.length > 0) {
+      out.push({
+        id: "pieces-to-15",
+        title: {
+          es: `Piezas que podés llevar de +10 a +${MAX_ENHANCE}`,
+          en: `Pieces you can take from +10 to +${MAX_ENHANCE}`,
+        },
+        body: {
+          es: "Con tu GS ya son piezas definitivas. Por encima de +10 puede fallar (65/50/35/25/20 %), pero cada fallo suma +5 % al próximo intento.",
+          en: "At your GS these are keeper pieces. Past +10 it can fail (65/50/35/25/20%), but each failure adds +5% to the next try.",
+        },
+        pieces: toMax.map((p) => ({ slot: p.slot, name: p.name, value: `+${p.enhance} → +${MAX_ENHANCE}` })),
+        confidence: "disputed",
+      });
+    }
   }
 
   if (phase.pieceIlvl !== undefined) {

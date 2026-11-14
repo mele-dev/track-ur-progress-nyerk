@@ -1,22 +1,28 @@
 {
-  "total": 2,
   "list": [
     {
-      "characterId": "9PO8eUjDa8pGlEbVzGrXcPIg8uTHRHN1MEr7cEdM1Nc%3D",
-      "name": "<em>Nyerk</em>",
-      "serverId": 2201,
-      "serverName": "Israphel",
+      "characterId": "AbCdEf1BuE6sYBSnOseF3EglUkOK0a5kXvs0_Ii4aafgw%3D",
+      "name": "<strong>Ejemplo</strong>",
+      "race": 2,
+      "pcId": 8,
       "level": 45,
-      "className": "Gladiator",
-      "raceName": "Asmodian",
-      "profileImageUrl": "https://example.com/p.png"
+      "serverId": 2404,
+      "serverName": "Lumiel",
+      "profileImageUrl": "/game_profile_images/aion2global/images?gameServerKey=2404&charKey=111111111111111111",
+      "region": "la"
     },
     {
-      "characterId": "abc%2Bdef%2F%3D",
-      "name": "<em>Nyerk</em>ito",
-      "serverId": "2202",
-      "level": "32"
+      "characterId": "Zx-Yw_9876%2Bdef%2F%3D",
+      "name": "<strong>Ejemplo</strong>ito",
+      "race": 1,
+      "pcId": 9,
+      "level": 3,
+      "serverId": 1406,
+      "serverName": "Ariel",
+      "profileImageUrl": "/game_profile_images/aion2global/images?gameServerKey=1406&charKey=222222222222222222",
+      "region": "la"
     },
     { "name": "sin id" }
-  ]
+  ],
+  "pagination": { "page": 1, "size": 20, "total": 2, "endPage": 1 }
 }

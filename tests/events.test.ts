@@ -29,11 +29,11 @@ describe("Artifact Siege", () => {
   });
   it("el próximo siege cae lunes, jueves o sábado a las 21:00 locales", () => {
     // Miércoles 4/11/2026 12:00 UTC → jueves 5/11 21:00 São Paulo (UTC-3) = 6/11 00:00 UTC
-    const o = nextArtifactSiege(new Date("2026-11-04T12:00:00Z"), "sa");
+    const o = nextArtifactSiege(new Date("2026-11-04T12:00:00Z"), "la");
     expect(o.start.toISOString()).toBe("2026-11-06T00:00:00.000Z");
   });
   it("devuelve el siege activo si está en curso", () => {
-    const o = nextArtifactSiege(new Date("2026-11-06T00:30:00Z"), "sa");
+    const o = nextArtifactSiege(new Date("2026-11-06T00:30:00Z"), "la");
     expect(o.active).toBe(true);
   });
 });

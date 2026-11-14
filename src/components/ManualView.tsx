@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { manualHref } from "@/lib/links";
 import type { CharacterSnapshot } from "@/lib/plaync/types";
-import { REGIONS, isRegionId, type RegionId } from "@/lib/regions";
+import { REGIONS, parseRegion, type RegionId } from "@/lib/regions";
 import { loadProgress, manualKey, rememberCharacter, saveProgress } from "@/lib/storage/progress";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Card } from "./ui";
@@ -98,7 +98,7 @@ export function ManualView() {
   const params = useSearchParams();
   const name = params.get("name")?.trim() ?? "";
   const regionParam = params.get("region");
-  const region: RegionId = isRegionId(regionParam) ? regionParam : "nae";
+  const region: RegionId = parseRegion(regionParam) ?? "nae";
   const [fetchedAt] = useState(() => new Date().toISOString());
   const showDashboard = name !== "";
 

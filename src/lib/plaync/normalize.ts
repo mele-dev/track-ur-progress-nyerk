@@ -8,7 +8,7 @@
  * `/api/character?...&debug=1`, mirá el JSON crudo y agregá la ruta nueva acá.
  */
 import type { RegionId } from "@/lib/regions";
-import type { CharacterSnapshot, EquipmentPiece, SearchResult } from "./types";
+import type { CharacterSnapshot, EquipmentKind, EquipmentPiece, SearchResult } from "./types";
 
 type Json = unknown;
 type Obj = Record<string, unknown>;
@@ -56,7 +56,26 @@ export function toStr(v: unknown): string | null {
   return null;
 }
 
-/** La búsqueda resalta coincidencias con etiquetas HTML (<em>…</em>). */
+/** Las fotos de perfil de la búsqueda vienen con ruta relativa. */
+export const PROFILE_IMG_ORIGIN = "https://profileimg.plaync.com";
+
+export function absolutizeImage(url: string | null): string | null {
+  if (!url) return null;
+  if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith("//")) return `https:${url}`;
+  if (url.startsWith("/")) return `${PROFILE_IMG_ORIGIN}${url}`;
+  return null;
+}
+
+/** La búsqueda devuelve la raza como número (1 = Elyos, 2 = Asmodians). */
+export function raceName(v: unknown): string | null {
+  const n = toNum(v);
+  if (n === 1) return "Elyos";
+  if (n === 2) return "Asmodians";
+  return toStr(v);
+}
+
+/** La búsqueda resalta coincidencias con etiquetas HTML (<strong>…</strong>, <em>…</em>). */
 export function stripTags(s: string): string {
   return s.replace(/<[^>]*>/g, "");
 }
@@ -166,8 +185,10 @@ export function normalizeSearch(raw: Json, region: RegionId): SearchResult[] {
       name,
       level: toNum(pick(item, ["level", "characterLevel", "lv"])),
       className: toStr(pick(item, ["className", "class.name", "classNameEn", "job", "classCode"])),
-      race: toStr(pick(item, ["raceName", "race.name", "race"])),
-      profileImage: toStr(pick(item, ["profileImageUrl", "profileImage", "profileImg", "imageUrl", "image"])),
+      race: raceName(pick(item, ["raceName", "race.name", "race", "raceId"])),
+      profileImage: absolutizeImage(
+        toStr(pick(item, ["profileImageUrl", "profileImage", "profileImg", "imageUrl", "image"])),
+      ),
       region,
     });
   }
@@ -179,8 +200,18 @@ export function normalizeSearch(raw: Json, region: RegionId): SearchResult[] {
 const SLOT_KEYS = ["slotPosName", "slotName", "slotPos", "slot", "equipSlot", "position"];
 const ENHANCE_KEYS = ["enchantLevel", "enhanceLevel", "enchant", "enhance", "reinforce", "plus"];
 
+export function slotKind(slot: string): EquipmentKind {
+  if (/^rune/i.test(slot)) return "rune";
+  if (/^arcana/i.test(slot)) return "arcana";
+  return "gear";
+}
+
 export function normalizeEquipment(raw: Json): EquipmentPiece[] | null {
-  const list = deepFindArray(raw, (o) => SLOT_KEYS.some((k) => k in o) || ENHANCE_KEYS.some((k) => k in o));
+  // Formato real: { equipment: { equipmentList: [...], skinList: [...] } }. Las skins no cuentan.
+  const direct = pick(raw, ["equipment.equipmentList", "equipmentList", "data.equipment.equipmentList"]);
+  const list = Array.isArray(direct)
+    ? direct.filter(isObj)
+    : deepFindArray(raw, (o) => SLOT_KEYS.some((k) => k in o) || ENHANCE_KEYS.some((k) => k in o));
   if (!list) return null;
   const pieces: EquipmentPiece[] = [];
   for (const item of list) {
@@ -189,9 +220,11 @@ export function normalizeEquipment(raw: Json): EquipmentPiece[] | null {
     if (!slot && !name) continue;
     pieces.push({
       slot: slot ?? "?",
+      kind: slotKind(slot ?? ""),
       name,
       itemLevel: toNum(pick(item, ["itemLevel", "item.itemLevel", "level", "itemLv"])),
       enhance: toNum(pick(item, ENHANCE_KEYS)),
+      exceed: toNum(pick(item, ["exceedLevel", "exceed", "amplifyLevel"])),
       grade: toStr(pick(item, ["grade", "gradeName", "quality", "rarity", "item.grade"])),
       icon: toStr(pick(item, ["icon", "iconUrl", "image", "imageUrl", "item.icon"])),
     });
@@ -243,11 +276,11 @@ export function normalizeCharacter(
     characterId: decodeId(ref.characterId),
     name: name ?? "?",
     className: toStr(pick(profile, ["className", "class.name", "classNameEn", "job"])),
-    race: toStr(pick(profile, ["raceName", "race.name", "race"])),
+    race: raceName(pick(profile, ["raceName", "race.name", "race", "raceId"])),
     level,
     itemLevel,
     combatPower,
-    profileImage: toStr(pick(profile, ["profileImage", "profileImageUrl", "profileImg", "imageUrl"])),
+    profileImage: absolutizeImage(toStr(pick(profile, ["profileImage", "profileImageUrl", "profileImg", "imageUrl"]))),
     equipment: pieces,
     fetchedAt: fetchedAt.toISOString(),
     warnings,

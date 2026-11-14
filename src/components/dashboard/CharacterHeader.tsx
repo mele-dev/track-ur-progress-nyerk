@@ -5,7 +5,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import type { CharacterSnapshot } from "@/lib/plaync/types";
 import { getRegion } from "@/lib/regions";
 import type { StatOverrides } from "@/lib/storage/progress";
-import { Badge, Spinner } from "../ui";
+import { Avatar, Badge, Spinner } from "../ui";
 
 function Stat({ label, value, overridden }: { label: string; value: string; overridden?: boolean }) {
   const { d } = useI18n();
@@ -57,19 +57,7 @@ export function CharacterHeader({
   return (
     <section className="rounded-2xl border border-line bg-surface/90 p-4 sm:p-5">
       <div className="flex flex-wrap items-center gap-4">
-        {snapshot.profileImage ? (
-          // eslint-disable-next-line @next/next/no-img-element -- imagen externa del sitio oficial
-          <img
-            src={snapshot.profileImage}
-            alt=""
-            className="h-16 w-16 rounded-2xl border border-line object-cover"
-            referrerPolicy="no-referrer"
-          />
-        ) : (
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-line bg-surface-2 text-2xl font-bold text-gold">
-            {snapshot.name.slice(0, 1).toUpperCase()}
-          </div>
-        )}
+        <Avatar src={snapshot.profileImage} name={snapshot.name} />
         <div className="min-w-0 flex-1">
           <h1 className="truncate text-2xl font-bold tracking-tight sm:text-3xl">{snapshot.name}</h1>
           {meta && <p className="text-sm text-muted">{meta}</p>}

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { fetchCharacterEquipment, fetchCharacterInfo, officialProfileUrl } from "@/lib/plaync/client";
 import { errorFrom, errorJson } from "@/lib/plaync/http";
 import { decodeId, normalizeCharacter } from "@/lib/plaync/normalize";
-import { isRegionId } from "@/lib/regions";
+import { parseRegion } from "@/lib/regions";
 
 export const runtime = "nodejs";
 
@@ -12,13 +12,13 @@ export const runtime = "nodejs";
  */
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
-  const region = params.get("region");
+  const region = parseRegion(params.get("region"));
   const serverId = params.get("serverId")?.trim() ?? "";
   const characterId = decodeId(params.get("characterId")?.trim() ?? "");
   const fresh = params.get("fresh") === "1";
   const debug = params.get("debug") === "1";
 
-  if (!isRegionId(region)) return errorJson("bad_request", "Región inválida");
+  if (!region) return errorJson("bad_request", "Región inválida");
   if (!/^[\w-]{1,16}$/.test(serverId)) return errorJson("bad_request", "serverId inválido");
   if (characterId.length < 4 || characterId.length > 200) return errorJson("bad_request", "characterId inválido");
 

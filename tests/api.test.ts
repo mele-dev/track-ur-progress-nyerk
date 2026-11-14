@@ -32,11 +32,17 @@ describe("GET /api/search", () => {
 
   it("consulta PLAYNC y normaliza", async () => {
     const calls = mockFetch(() => ({ status: 200, body: search }));
-    const res = await searchGET(req("/api/search?name=Nyerk&region=naw"));
+    const res = await searchGET(req("/api/search?name=Ejemplo&region=la"));
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body.results[0]).toMatchObject({ name: "Nyerk", serverId: "2201" });
-    expect(calls[0]).toContain("api-search.plaync.com/aion2global/search/v2/character?keyword=Nyerk&region=naw");
+    expect(body.results[0]).toMatchObject({ name: "Ejemplo", serverId: "2404" });
+    expect(calls[0]).toContain("api-search.plaync.com/aion2global/search/v2/character?keyword=Ejemplo&region=la&localeInfo=en-US");
+  });
+
+  it("acepta el código viejo de Latinoamérica (sa → la)", async () => {
+    const calls = mockFetch(() => ({ status: 200, body: search }));
+    await searchGET(req("/api/search?name=Ejemplo&region=sa"));
+    expect(calls[0]).toContain("&region=la&");
   });
 
   it("traduce 403 a upstream_blocked", async () => {
@@ -55,8 +61,8 @@ describe("GET /api/character", () => {
     const res = await characterGET(req(url));
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body.snapshot).toMatchObject({ name: "Nyerk", itemLevel: 2400, combatPower: 152300, characterId: "abc=" });
-    expect(body.snapshot.equipment).toHaveLength(3);
+    expect(body.snapshot).toMatchObject({ name: "Ejemplo", itemLevel: 2881, combatPower: 153756, characterId: "abc=" });
+    expect(body.snapshot.equipment).toHaveLength(6);
     expect(body.officialUrl).toBe("https://aion2.plaync.com/en-us/characters/2201/abc%3D?region=naw");
     for (const c of calls) {
       expect(c).toContain("characterId=abc%3D&");
@@ -67,7 +73,7 @@ describe("GET /api/character", () => {
   it("si falla el equipo, igual devuelve el personaje", async () => {
     mockFetch((u) => (u.includes("/equipment") ? { status: 500, body: "x" } : { status: 200, body: info }));
     const body = await (await characterGET(req(url))).json();
-    expect(body.snapshot.itemLevel).toBe(2400);
+    expect(body.snapshot.itemLevel).toBe(2881);
     expect(body.snapshot.warnings).toContain("equipment_unavailable");
   });
 

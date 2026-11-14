@@ -1,19 +1,33 @@
 {
   "profile": {
-    "characterName": "Nyerk",
-    "className": "Gladiator",
-    "raceName": "Asmodian",
+    "characterId": "AbCdEf1BuE6sYBSnOseF3EglUkOK0a5kXvs0_Ii4aafgw=",
     "characterLevel": 45,
-    "combatPower": "152,300",
-    "serverName": "Israphel",
-    "profileImage": "https://example.com/p.png"
+    "characterName": "Ejemplo",
+    "className": "Gladiator",
+    "combatPower": 153756,
+    "gender": 2,
+    "genderName": "Female",
+    "pcId": 8,
+    "profileImage": "https://profileimg.plaync.com/game_profile_images/aion2global/images?gameServerKey=2404&charKey=111111111111111111",
+    "raceId": 2,
+    "raceName": "Asmodians",
+    "regionName": "",
+    "serverId": 2404,
+    "serverName": "Lumiel",
+    "titleGrade": "Special",
+    "titleId": 39000046,
+    "titleName": "Has Exceptional Skill"
   },
   "stat": {
     "statList": [
-      { "type": "STR", "name": "Power", "value": 120 },
-      { "type": "ItemLevel", "name": "Item Level", "value": 2400 }
+      { "type": "STR", "name": "Might", "value": 20, "statSecondList": ["Attack increase +2%"] },
+      { "type": "Justice", "name": "Justice [Nezekan]", "value": 71, "statSecondList": ["Defense increase +7.1%", "Perfect Chance +7.1%"] },
+      { "type": "ItemLevel", "name": "아이템레벨", "value": 2881, "statSecondList": [] }
     ]
   },
-  "title": { "totalCount": 40 },
-  "daevanion": { "boardList": [{ "id": 11, "name": "Nezekan" }] }
+  "title": { "ownedCount": 243, "totalCount": 307, "titleList": [] },
+  "ranking": { "rankingList": null },
+  "daevanion": {
+    "boardList": [{ "id": 11, "name": "Nezekan", "open": 1, "openNodeCount": 59, "openPercent": 67, "totalNodeCount": 88 }]
+  }
 }
