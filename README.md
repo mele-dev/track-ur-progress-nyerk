@@ -62,21 +62,22 @@ NCSOFT **no tiene una API oficial**. Este proyecto usa los mismos endpoints que 
 | Perfil | `https://aion2.plaync.com/api/character/info?region=&characterId=&serverId=&lang=en-US` |
 | Equipo | `https://aion2.plaync.com/api/character/equipment?region=&characterId=&serverId=&lang=en-US` |
 
-Regiones: `nae` (NA East), `naw` (NA West), `eu`, `sa` (Latin America), `asia`.
+Regiones: `nae` (NA East), `naw` (NA West), `eu` (Europe), `la` (Latin America), `as` (Asia). Un código inválido **no da error**: la búsqueda devuelve una lista vacía. Los códigos viejos `sa` y `asia` se aceptan como alias.
 
 Las respuestas se cachean 30 minutos. El botón "Actualizar" del dashboard saltea la cache.
 
-### ⚠ Esto no se pudo probar contra la API real
+### Formato real (verificado el 14/11/2026)
 
-El entorno donde se desarrolló no tenía acceso de red a `plaync.com`. Por eso:
+- **Búsqueda:** `{ list: [{ characterId (%-encodeado), name (con <strong>), race (1 = Elyos, 2 = Asmodians), pcId, level, serverId, serverName, profileImageUrl (ruta relativa a profileimg.plaync.com), region }], pagination }`.
+- **Perfil:** `profile` (characterName, characterLevel, className, raceName, combatPower, serverName, profileImage), `stat.statList` (el GS es el stat `type: "ItemLevel"`), `title`, `daevanion.boardList`.
+- **Equipo:** `equipment.equipmentList` (slotPosName, enchantLevel, exceedLevel, grade, name, icon). Incluye runas (`Rune1/2`) y cartas Arcana (`Arcana1..5`), que no cuentan para las reglas de +10/+15. `skinList` son skins y se ignoran. No trae item level por pieza.
 
-- La lectura de la respuesta (`src/lib/plaync/normalize.ts`) es **defensiva**: busca cada dato (nombre, nivel, GS, CP, equipo) en varias rutas posibles. Si alguno no aparece, queda vacío y el dashboard te pide que lo cargues a mano.
-- Si la API falla del todo, siempre podés usar el **modo manual** (`/manual`): cargás nivel, GS y CP y obtenés el mismo dashboard.
+La lectura (`src/lib/plaync/normalize.ts`) igual es **defensiva**: si NCSOFT cambia un campo, ese dato queda vacío y el dashboard pide cargarlo a mano. Si la API falla del todo, siempre está el **modo manual** (`/manual`).
 
-**Si después de deployar algo no se lee bien** (por ejemplo, el GS aparece como "—"):
+**Si algo deja de leerse bien** (por ejemplo, el GS aparece como "—"):
 
-1. Abrí `https://TU-DEPLOY.vercel.app/api/character?region=...&serverId=...&characterId=...&debug=1`. Esos parámetros los tenés en la URL del dashboard, `/c/{region}/{serverId}/{characterId}`. Para la búsqueda: `/api/search?name=TuNombre&region=sa&debug=1`.
-2. Mirá en el campo `raw` cómo se llama el dato en el JSON real.
+1. Abrí `https://TU-DEPLOY.vercel.app/api/character?region=...&serverId=...&characterId=...&debug=1`. Esos parámetros los tenés en la URL del dashboard, `/c/{region}/{serverId}/{characterId}`. Para la búsqueda: `/api/search?name=TuNombre&region=la&debug=1`.
+2. Mirá en el campo `raw` cómo se llama el dato ahora.
 3. Agregá esa ruta en `src/lib/plaync/normalize.ts`, por ejemplo en la lista de `pick(profile, [...])` de `itemLevel`.
 4. Agregá un fixture en `tests/fixtures/` con la respuesta real y corré `npm test`.
 

@@ -13,11 +13,19 @@ export interface SearchResult {
   region: RegionId;
 }
 
+/** "gear" = equipo que se encanta normal (+0..+15); runas y Arcana tienen otros topes. */
+export type EquipmentKind = "gear" | "rune" | "arcana";
+
 export interface EquipmentPiece {
+  /** Nombre del slot tal como lo da PLAYNC (MainHand, Helmet, Ring1, Rune1, Arcana1…). */
   slot: string;
+  kind: EquipmentKind;
   name: string | null;
   itemLevel: number | null;
+  /** Nivel de enchant (+N). */
   enhance: number | null;
+  /** Nivel de "exceed" (amplificación por encima de +15). */
+  exceed: number | null;
   grade: string | null;
   icon: string | null;
 }

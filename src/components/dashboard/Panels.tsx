@@ -1,6 +1,7 @@
 "use client";
 
 import { UPGRADE_ORDER } from "@/data/gear";
+import { slotLabel } from "@/data/slots";
 import { useI18n } from "@/i18n/I18nProvider";
 import type { Dashboard, GearAdvice, UnlockedItem, UpcomingUnlock } from "@/lib/engine/types";
 import type { RegionId } from "@/lib/regions";
@@ -164,7 +165,7 @@ export function UpcomingPanel({ groups }: { groups: UpcomingUnlock[] }) {
 // ─────────────────────────────── Equipo ───────────────────────────────
 
 export function GearPanel({ advice, hasEquipment }: { advice: GearAdvice[]; hasEquipment: boolean }) {
-  const { d, l } = useI18n();
+  const { d, l, locale } = useI18n();
   if (advice.length === 0) return null;
   return (
     <Card title={d.gear.title} subtitle={hasEquipment ? undefined : d.gear.noEquip}>
@@ -181,7 +182,7 @@ export function GearPanel({ advice, hasEquipment }: { advice: GearAdvice[]; hasE
                 {g.pieces.map((p, i) => (
                   <li key={`${p.slot}-${i}`}>
                     <Badge tone="warn" title={p.name ?? undefined}>
-                      {p.slot} · {p.value}
+                      {slotLabel(p.slot, locale)} · {p.value}
                     </Badge>
                   </li>
                 ))}

@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { characterHref } from "@/lib/links";
 import type { ApiError, SearchResult } from "@/lib/plaync/types";
-import { REGIONS, isRegionId, type RegionId } from "@/lib/regions";
+import { REGIONS, parseRegion, type RegionId } from "@/lib/regions";
 import { forgetCharacter, loadRecent, type RecentCharacter } from "@/lib/storage/progress";
-import { Badge, Card, Spinner } from "./ui";
+import { Avatar, Badge, Card, Spinner } from "./ui";
 
 const REGION_KEY = "aion2tracker:v1:region";
 
@@ -21,9 +21,9 @@ export function SearchPanel() {
 
   useEffect(() => {
     try {
-      const saved = window.localStorage.getItem(REGION_KEY);
+      const saved = parseRegion(window.localStorage.getItem(REGION_KEY));
       // eslint-disable-next-line react-hooks/set-state-in-effect -- preferencia guardada en el navegador
-      if (isRegionId(saved)) setRegion(saved);
+      if (saved) setRegion(saved);
     } catch {
       // ignorar
     }
@@ -121,14 +121,7 @@ export function SearchPanel() {
                       href={characterHref(r.region, r.serverId, r.characterId)}
                       className="flex items-center gap-3 rounded-xl border border-line bg-surface-2/60 px-3 py-2.5 hover:border-gold/50"
                     >
-                      {r.profileImage ? (
-                        // eslint-disable-next-line @next/next/no-img-element -- imagen externa del sitio oficial
-                        <img src={r.profileImage} alt="" className="h-10 w-10 rounded-lg object-cover" referrerPolicy="no-referrer" />
-                      ) : (
-                        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-gold">
-                          {r.name.slice(0, 1).toUpperCase()}
-                        </span>
-                      )}
+                      <Avatar src={r.profileImage} name={r.name} size="sm" />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium">{r.name}</span>
                         <span className="block truncate text-xs text-muted">

@@ -1,7 +1,8 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { CharacterView } from "@/components/CharacterView";
 import { decodeId } from "@/lib/plaync/normalize";
-import { isRegionId } from "@/lib/regions";
+import { characterHref } from "@/lib/links";
+import { parseRegion } from "@/lib/regions";
 
 export default async function CharacterPage({
   params,
@@ -9,6 +10,11 @@ export default async function CharacterPage({
   params: Promise<{ region: string; serverId: string; characterId: string }>;
 }) {
   const p = await params;
-  if (!isRegionId(p.region)) notFound();
-  return <CharacterView region={p.region} serverId={decodeId(p.serverId)} characterId={decodeId(p.characterId)} />;
+  const region = parseRegion(p.region);
+  if (!region) notFound();
+  const serverId = decodeId(p.serverId);
+  const characterId = decodeId(p.characterId);
+  // Links viejos con un código de región alternativo (ej. "sa") → URL canónica.
+  if (region !== p.region) redirect(characterHref(region, serverId, characterId));
+  return <CharacterView region={region} serverId={serverId} characterId={characterId} />;
 }
