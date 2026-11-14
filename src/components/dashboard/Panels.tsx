@@ -31,11 +31,11 @@ export function PhaseCard({ dash }: { dash: Dashboard }) {
 
       {progress && (
         <div className="mt-4">
-          <div className="mb-1.5 flex items-baseline justify-between gap-2 text-sm">
+          <div className="mb-1.5 flex flex-col gap-0.5 text-sm sm:flex-row sm:items-baseline sm:justify-between sm:gap-2">
             <span className="text-muted">
               {d.phase.goal}: <span className="font-medium text-ink">{l(phase.goal)}</span>
             </span>
-            <span className="font-semibold text-gold">
+            <span className="whitespace-nowrap font-semibold text-gold">
               {progress.gap > 0
                 ? fmt(d.phase.toGo, { gap: num(progress.gap), unit: isLeveling ? d.phase.levelUnit : d.phase.gsUnit })
                 : d.phase.reached}
@@ -99,12 +99,12 @@ export function UnlockedPanel({
                   )}
                 </p>
               </div>
-              <label className="flex items-center gap-2 text-sm text-muted">
-                {d.unlocked.doing}
+              <label className="flex w-full items-center gap-2 text-sm text-muted sm:w-auto">
+                <span className="shrink-0">{d.unlocked.doing}</span>
                 <select
                   value={u.doingTier?.id ?? ""}
                   onChange={(e) => onDoing(u.activity.id, e.target.value || null)}
-                  className="rounded-lg border border-line bg-surface px-2 py-1.5 text-ink"
+                  className="min-w-0 flex-1 rounded-lg border border-line bg-surface px-2 py-2 text-ink sm:flex-none sm:py-1.5"
                 >
                   <option value="">{d.unlocked.notSet}</option>
                   {u.allTiers

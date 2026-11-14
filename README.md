@@ -92,9 +92,15 @@ Todo lo que el dashboard recomienda está en `src/data/`:
 | `gear.ts` | Reglas de equipo (+10 seguro, chances de +11..+15, orden de mejoras, CP extra) |
 | `sources.ts` | Guías usadas |
 
-Cuando las guías no coinciden en un número, la actividad tiene `confidence: "disputed"` y la UI muestra un ⚠ con "verificá in-game". Si NCSOFT desactiva algo temporalmente (hoy: **Ludra**), se marca con `disabled`.
+Lo que está confirmado por los patch notes oficiales de NCSOFT tiene `confidence: "ok"` y la nota como fuente (`official-YYYY-MM-DD`). Lo que sale de guías comunitarias que no coinciden tiene `confidence: "disputed"`, y la UI le muestra un ⚠ con "verificá in-game". Si NCSOFT desactiva algo temporalmente, se marca con `disabled`.
 
-Los datos se armaron con guías comunitarias de oct–nov 2026 (después del parche del 28/10). La lista completa está en la página **Guía de fases** (`/roadmap`) y en `src/data/sources.ts`.
+### Revisión de patch notes
+
+- La fecha de la última revisión está en `src/data/meta.ts`: hoy, patch notes oficiales hasta el **11/11/2026**, revisados el **14/11/2026**. También se ve en el pie de la página.
+- El historial de qué cambió en cada revisión está en `docs/DATA_UPDATES.md`.
+- Para la próxima, `npm run patch-notes` lista las notas oficiales publicadas después de esa fecha. El paso a paso para Claude está en `CLAUDE.md`.
+
+La lista completa de fuentes está en la página **Guía de fases** (`/roadmap`) y en `src/data/sources.ts`.
 
 ## Estructura
 

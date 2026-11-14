@@ -27,7 +27,12 @@ describe("Artifact Siege", () => {
     expect(zonedWallTimeToUtc(2026, 10, 15, 21, 0, "America/New_York").toISOString()).toBe("2026-10-16T01:00:00.000Z");
     expect(zonedWallTimeToUtc(2026, 11, 5, 21, 0, "America/New_York").toISOString()).toBe("2026-11-06T02:00:00.000Z");
   });
-  it("el próximo siege cae lunes, jueves o sábado a las 21:00 locales", () => {
+  it("desde el 4/11 ya no hay siege los lunes", () => {
+    // Lunes 2026-11-09 12:00 UTC → próximo: jueves 12/11 21:00 São Paulo = 13/11 00:00 UTC
+    const o = nextArtifactSiege(new Date("2026-11-09T12:00:00Z"), "la");
+    expect(o.start.toISOString()).toBe("2026-11-13T00:00:00.000Z");
+  });
+  it("el próximo siege cae jueves o sábado a las 21:00 locales", () => {
     // Miércoles 4/11/2026 12:00 UTC → jueves 5/11 21:00 São Paulo (UTC-3) = 6/11 00:00 UTC
     const o = nextArtifactSiege(new Date("2026-11-04T12:00:00Z"), "la");
     expect(o.start.toISOString()).toBe("2026-11-06T00:00:00.000Z");
